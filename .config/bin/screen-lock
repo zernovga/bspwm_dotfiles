@@ -1,0 +1,11 @@
+#!/bin/bash
+
+fg=c0caf5
+wrong=db4b4b
+date=7aa2f7
+verify=7aa2f7
+
+lock_image="$HOME/Pictures/Wallpapers/system/lock_screen.png"
+i3lock -n -i $lock_image -e
+
+

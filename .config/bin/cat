@@ -1,0 +1,466 @@
+
+i3lock‐color(1)                     User Manuals                    i3lock‐color(1)
+
+NAME
+       i3lock‐color - improved screen locker
+
+SYNOPSIS
+       i3lock  [-v] [-n] [-b] [-i image.png] [-c color] [-t] [-p pointer] [-u] [-e]
+       [-f] [-m]
+
+DESCRIPTION
+       i3lock-color is a simple screen locker like slock. After  starting  it,  you
+       will  see a white screen (you can configure the color/an image). You can re‐
+       turn to your screen by entering your password.
+
+FEATURES
+       • i3lock forks, so you can combine it with an alias to suspend to  RAM  (run
+         "i3lock  && echo mem > /sys/power/state" to get a locked screen after wak‐
+         ing up your computer from suspend to RAM)
+
+       • You can specify either a background color or a PNG  image  which  will  be
+         displayed while your screen is locked.
+
+       • You can specify whether i3lock should bell upon a wrong password.
+
+       • i3lock uses PAM and therefore is compatible with LDAP, etc.
+
+OPTIONS
+       -v, --version
+              Display the version of your i3lock
+
+       -n, --nofork
+              Don’t fork after starting.
+
+       -b, --beep
+              Enable  beeping.  Be  sure to not do this when you are about to annoy
+              other people, like when opening your laptop in a boring lecture.
+
+       -u, --no-unlock-indicator
+              Disable the unlock indicator. i3lock will by default show  an  unlock
+              indicator after pressing keys. This will give feedback for every key‐
+              press  and it will show you the current PAM state (whether your pass‐
+              word is currently being verified or whether it is wrong).
+
+       -i path, --image=path
+              Display the given PNG image instead of a blank screen.
+
+       --raw=format
+              Read the image given by --image as a raw image instead  of  PNG.  The
+              argument  is  the  image’s  format as <width>x<height>:<pixfmt>.  The
+              supported pixel formats are: ´native’, ’rgb’, ’xrgb’, ’rgbx’,  ’bgr’,
+              ’xbgr’,  and  ’bgrx’.  The "native" pixel format expects a pixel as a
+              32‐bit (4‐byte) integer in the machine’s native endianness, with  the
+              upper 8 bits unused.  Red, green and blue are stored in the remaining
+              bits, in that order.
+
+              Example:
+                   ‐‐raw=1920x1080:rgb
+              You  can use ImageMagick’s convert(1) program to feed raw images into
+              i3lock:
+
+                   convert wallpaper.jpg RGB:‐ | i3lock ‐‐raw 3840x2160:rgb ‐‐image /dev/stdin
+              This allows you to load a variety of  image  formats  without  i3lock
+              having to support each one explicitly.  You can also use it to resize
+              images to the screen ratio:
+
+                   convert wallpaper.jpg ‐resize $(xdpyinfo | grep dimensions | sed ‐r ’s/^[^0‐9]*([0‐9]+x[0‐9]+).*$/1/’) RGB:‐ | i3lock ‐‐raw $(xdpyinfo | grep dimensions | sed ‐r ’s/^[^0‐9]*([0‐9]+x[0‐9]+).*$/1/’):rgb ‐‐image /dev/stdin
+              Note    that    $(xdpyinfo    |    grep    dimensions    |   sed   ‐r
+              ’s/^[^0‐9]*([0‐9]+x[0‐9]+).*$/1/’) gets you the current screen dimen‐
+              sions in the wxh (e.g. 1920x1080) format.
+
+       -c rrggbbaa, --color=rrggbbaa
+              Turn the screen into the given color instead of white. Color must  be
+              given  in 4‐byte format: rrggbbaa (i.e. ff0000ff is opaque red).  Use
+              the last byte for alpha. Setting this below FF (i.e.  ff000088)  will
+              allow  your  screen to be shown translucently if you use a compositor
+              (e.g. compton, xcompmgr).
+
+       -t, --tiling
+              If an image is specified (via -i) it will display the image tiled all
+              over the screen.
+
+              Note: For all image options, with a multi‐monitor setup, the image is
+              visible on all screens.
+
+       -C, --centered
+              If an image is specified (via -i) it will display the image  centered
+              on the screen.
+
+       -F, --fill
+              If  an  image  is specified (via -i) it will scale the image until it
+              fills the screen. A portion of the image will be cropped.
+
+       -M, --max
+              If an image is specified (via -i) it will scale the image  until  ei‐
+              ther  the  width or the height fits the screen without being cropped.
+              The border color can be set via -c.
+
+       -L, --scale
+              If an image is specified (via -i) it will  stretch  the  image  until
+              both the width and the height fits the screen.
+
+       -p win|default, --pointer=win|default
+              If you specify "default", i3lock does not hide your mouse pointer. If
+              you  specify "win", i3lock displays a hardcoded Windows‐Pointer (thus
+              enabling you to mess with your friends by using  a  screenshot  of  a
+              Windows desktop as a locking‐screen).
+
+       -e, --ignore-empty-password
+              When  an  empty password is provided by the user, do not validate it.
+              Without this option, the empty password will be provided to PAM  and,
+              if  invalid,  the user will have to wait a few seconds before another
+              try. This can be useful if the XF86ScreenSaver key is used to  put  a
+              laptop to sleep and bounce on resume or if you happen to wake up your
+              computer with the enter key.
+
+       -f, --show-failed-attempts
+              Show the number of failed attempts, if any.
+
+       --debug
+              Enables  debug  logging.   Note, that this will log the password used
+              for authentication to stdout.
+
+i3lock‐color OPTIONS
+       -S number, --screen=number
+              Specifies which display to draw the unlock indicator and clock on. By
+              default, they’ll be placed on every screen.  Note that this number is
+              zero indexed. The ordering is dependent on libxinerama.
+
+       -B sigma, --blur=sigma
+              Captures the screen and blurs it using the given sigma (radius).  Im‐
+              ages may still be overlaid over the blurred screenshot.  As an alter‐
+              native to this option, you could  specify  a  translucent  background
+              color  (‐c option) with a fully transparent or translucent color, and
+              use a compositor to perform blurring (e.g. compton, picom).
+
+       -k, --clock, --force-clock
+              Displays the  clock.  --force-clock  also  displays  the  clock  when
+              there’s  indicator  text (useful for when the clock is not positioned
+              with the indicator).
+
+       --indicator
+              Forces the indicator to always be visible, instead of only showing on
+              activity.
+
+       --radius
+              The radius of the circle. Defaults to 90.
+
+       --ring-width
+              The width of the ring unlock indicator. Defaults to 7.0.
+
+       --{inside, ring}-color=rrggbbaa
+              Sets the idle color for the interior circle and ring.  Note: use  in‐
+              dividual  options  per element unless the shell supports brace expan‐
+              sion (in which case remove the spaces inside the curly braces).
+
+       --{inside, ring}ver-color=rrggbbaa
+              Sets the interior circle and ring color while the password  is  being
+              verified.
+
+       --{inside, ring}wrong-color=rrggbbaa
+              Sets the interior circle and ring color for during incorrect password
+              flashes.
+
+       --line-color=rrggbbaa
+              Sets  the  color  for  the  line separating the inside circle and the
+              outer ring.
+
+       --line-uses-{inside, ring}
+              Overrides --line-color. The line will match the {inside, ring} color.
+              Note: these two options conflict with each other.
+
+       --{key, bs}hl-color=rrggbbaa
+              Sets the color of highlight arcs on the ring upon keypress and  back‐
+              space.
+
+       --separator-color=rrggbbaa
+              Sets  the  color of the seperators at both ends of the highlight arcs
+              on the ring.
+
+       --{verif, wrong, modif}-color=rrggbbaa
+              Sets the color of the status text while verifying and  when  password
+              is wrong.
+
+       --{layout, time, date, greeter}-color=rrggbbaa
+              Sets text colors.
+
+       --keylayout mode
+              Displays the keylayout. Positionable similar to date, time, and indi‐
+              cator.  Modes are as follows:
+
+              • 0  ‐  Displays the full string returned by the query, i.e. "English
+                (US)"
+
+              • 1 ‐ Displays up until the first parenthesis, i.e. "English"
+
+              • 2 ‐ Displays just the contents of the parenthesis, i.e. "US"
+
+       For all following ‐str or ‐text options, some control characters  (i.e.  \n,
+       \t) are supported. See CONTROL CHARACTERS for more details.
+
+       --time-str="%H:%M:%S"
+              Sets the format used for generating the time string.  See strftime(3)
+              for a full list of format specifiers.
+
+       --date-str="%A, %m %Y"
+              Sets the format used for generating the date string.
+
+       --verif-text="verifying…"
+              Sets  the  string  to  be  shown  while  verifying  the  password/in‐
+              put/key/etc.
+
+       --wrong-text="wrong!"
+              Sets the string to be shown upon entering an incorrect password.
+
+       --noinput-text="no input"
+              Sets the string to be shown upon pressing backspace without  anything
+              to delete.
+
+       --lock-text="locking…"
+              Sets  the string to be shown while acquiring pointer and keyboard fo‐
+              cus.
+
+       --lockfailed-text="lock failed!"
+              Sets the string to be shown after failing to acquire pointer and key‐
+              board focus.
+
+       --greeter-text=""
+              Sets the greeter text.
+
+       --no-modkey-text
+              Hides the modkey indicator (Num, Caps Lock ...)
+
+       --{time, date, layout, verif, wrong, modif, greeter}-align
+              Sets the text alignment of the time, date,  keylayout,  verification,
+              wrong, modifier and greeter texts.
+
+              • 0 ‐ centered (default)
+
+              • 1 ‐ left aligned
+
+              • 2 ‐ right aligned
+
+       --{time, date, layout, verif, wrong, greeter, modif}outline-color=rrggbbaa
+              Sets the color of the outlines.
+
+       --{time, date, layout, verif, wrong, greeter}-font=sans-serif
+              Sets the font used to render various strings.
+
+       --{time, date, layout, verif, wrong, greeter}-size=number
+              Sets the font size used to render various strings.
+
+       --{time, date, layout, verif, wrong, greeter, modifier}outline-width=number
+              Sets the width of the outline.
+
+       --ind-pos="x-position:y-position"
+              Sets the position for the unlock indicator. Valid variables include:
+
+              • x ‐ x position of the current display.
+                    Corresponds to the leftmost column of pixels on that display.
+
+              • y ‐ y position of the current display.
+                    Corresponds to the topmost row of pixels on that display.
+
+              • w ‐ width of the current display.
+
+              • h ‐ height of the current display.
+
+              • r ‐ unlock indicator radius.
+
+       --time-pos="x-position:y-position"
+              Sets  the  position  for  the  time  string.  All  the variables from
+              --ind-pos may be used, in addition to:
+
+              • ix ‐ x position of the indicator on the current display.
+
+              • iy ‐ y position of the indicator on the current display.
+
+                If the --bar-indicator option is used, the following variables  may
+                be used:
+
+              • bw ‐ width of the bar indicator.
+
+              • bx ‐ x position of the bar indicator on the current display.
+
+              • by ‐ y position of the bar indicator on the current display.
+
+       --date-pos="x-position:y-position"
+              Sets  the  position  for  the  date  string.  All  the variables from
+              --ind-pos and --time-pos may be used, in addition to:
+
+              • tx ‐ x position of the timestring on the current display.
+
+              • ty ‐ y position of the timestring on the current display.
+
+       --greeter-pos="x-position:y-position"
+              Sets the position for the greeter  string.  All  the  variables  from
+              --ind-pos and --time-pos may be used.
+
+       --pass-{media, screen, power, volume}-keys
+              Allow  the  following  keys  to  be used normally while the screen is
+              locked by passing them through:
+
+              • media ‐ XF86AudioPlay,  XF86AudioPause,  XF86AudioStop,  XF86Audio‐
+                Prev,
+                        XF86AudioNext, XF86AudioMute, XF86AudioLowerVolume, XF86Au‐
+                dioRaiseVolume,
+                        XF86AudioMicMute
+
+              • screen ‐ XF86MonBrightnessUp, XF86MonBrightnessDown
+
+              • power ‐ XF86PowerDown, XF86PowerOff, XF86Sleep
+
+              • volume ‐ XF86AudioMute, XF86AudioLowerVolume, XF86AudioRaiseVolume
+
+       --custom-key-commands
+              Enables  custom  shell  commands  for media, screen, power and volume
+              keys. An alternative to --pass-media keys that will work in any envi‐
+              ronment.
+
+       --cmd-**
+              Shell command to run when the corresponding key is pressed.  Requires
+              --custom-key-commands
+
+              • brightness-up ‐ XF86MonBrightnessUp
+
+              • brightness-down ‐ XF86MonBrightnessDown
+
+              • media-play ‐ XF86AudioPlay
+
+              • media-pause ‐ XF86AudioPause
+
+              • media-stop ‐ XF86AudioStop
+
+              • media-next ‐ XF86AudioNext
+
+              • media-prev ‐ XF86AudioPrev
+
+              • audio-mute ‐ XF86AudioMute
+
+              • volume-up ‐ XF86AudioRaiseVolume
+
+              • volume-down ‐ XF86AudioLowerVolume
+
+              • mic-mute ‐ XF86AudioMicMute
+
+              • power-down ‐ XF86PowerDown
+
+              • power-off ‐ XF86PowerOff
+
+              • power-sleep ‐ XF86Sleep
+
+       --bar-indicator
+              Replaces  the  usual  ring indicator with a bar indicator. Comes with
+              perks.
+
+       --bar-direction={0, 1, 2}
+              Sets the direction the bars grow in. 0 is the default (downwards,  or
+              rightwards,  depending on the bar orientation). 1 is the reverse, and
+              2 is both.
+
+       --bar-orientation={vertical,horizontal}
+              Sets whether the bar is vertically  or  horizontally  oriented.   De‐
+              faults to horizontal.
+
+       --bar-step
+              Sets  the  step  that  each bar decreases by when a key is pressed. A
+              random bar is set to its max height, then each  neighbor  is  set  to
+              (height ‐ step*distance).
+
+       --bar-max-height
+              The  maximum height a bar can get to. When a key is pressed, a random
+              bar is set to this value, then its neighbors are set to  its  height,
+              minus the step value.
+
+       --bar-base-width
+              The  thickness  of  the  "base" bar that all the bars originate from.
+              This bar also takes on the ring verification and wrong colors to give
+              authentication feedback.
+
+       --bar-color
+              Sets the default color of the bar base.
+
+       --bar-periodic-step
+              The value by which the bars decrease each time the screen is redrawn.
+
+       --bar-pos
+              Works similarly to the time/date/indicator expressions. If  only  one
+              number  is  provided,  this  sets the vertical offset from the top or
+              left edge. If two numbers are provided in the form of x:y,  sets  the
+              starting position of the bar.
+
+       --bar-count
+              Sets the number of minibars to draw on each screen.
+
+       --bar-total-width
+              The total width of the bar. Can be an expression.
+
+       --redraw-thread
+              Starts  a separate thread for redrawing the screen. Potentially worse
+              from a security standpoint, but makes the bar indicator still do  its
+              usual periodic redraws when PAM is authenticating.
+
+       --refresh-rate=seconds-as-double
+              The  refresh rate of the indicator, given in seconds. This should au‐
+              tomatically align itself, but is somewhat  buggy  currently.   Values
+              less than one will work, but may result in poor system performance.
+
+       --composite
+              Some  compositors  have  problems  with  i3lock trying to render over
+              them, so this argument is disabled by  default.  However,  some  will
+              work properly with it, so it’s been left enabled.
+
+       --no-verify
+              Do  not  verify  the  password entered by the user and unlock immedi‐
+              ately.  Use only for quickly testing new configurations and  remember
+              to remove to actually lock your screen!
+
+       --slideshow-interval
+              The interval to wait until switching to the next image.
+
+       --slideshow-random-selection
+              Randomize the order of the images.
+
+CONTROL CHARACTERS
+       Control characters (\r \n \b \t) are supported in text OPTIONS. Their behav‐
+       ior are almost as same as anywhere else.
+
+       Carriage Return(\r)
+              Move  to  the start of line (left edge).  Notes: The rendered charac‐
+              ters would still live there.
+
+       Line Feed(\n)
+              Move to start of next line (left edge).
+
+       Backspace(\b)
+              Overwrite last one char if exists.   Notes:  The  rendered  character
+              would still live there.
+
+       Tab(\t)
+              Move  to next tab stop position.The width of one character for moving
+              is as same as character ’a’.  Note: The width may be strange  if  the
+              font is not mono‐spaced.
+
+SEE ALSO
+       xautolock(1) - use i3lock as your screen saver
+
+       convert(1) - feed a wide variety of image formats to i3lock
+
+HOMEPAGE
+       https://github.com/Raymo111/i3lock‐color
+
+       Please  report  bugs  and  submit  pull‐requests as follows: For i3lock (up‐
+       stream): https://github.com/i3/i3lock For i3lock‐color (enhancements on  top
+       of i3lock): https://github.com/Raymo111/i3lock‐color
+
+AUTHORS
+       Michael Stapelberg <michael+i3lock at stapelberg dot de>
+
+       Jan‐Erik Rediger <badboy at archlinux.us>
+
+       Pandora <pandora at techfo dot xyz>
+
+       Raymond Li <i3lock‐color at raymond.li>
+
+Linux                                 JAN 2022                      i3lock‐color(1)

@@ -1,0 +1,12 @@
+#!/bin/env bash
+
+choice=$(printf "Lock\nLogout\nSuspend\nReboot\nShutdown" | rofi -dmenu)
+case "$choice" in
+  Lock) sh $HOME/.config/bin/screen-lock2 ;;
+  Logout) pkill -KILL -u "$USER" ;;
+  # Suspend) systemctl suspend && sh $HOME/.config/bin/screen-lock ;;
+  Suspend) systemctl suspend && sh $HOME/.config/bin/screen-lock2 ;;
+
+  Reboot) systemctl reboot ;;
+  Shutdown) systemctl poweroff ;;
+esac
