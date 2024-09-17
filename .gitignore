@@ -73,3 +73,17 @@ slidev-theme-sirius-college
 .config/yarn/global/package.json
 .config/yarn/global/yarn.lock
 .config/xfce4/
+.config/transmission
+.config/torbrowser/
+.config/go
+.config/google*
+.config/ink*
+.config/rncdbc.org
+.node_repl_history
+.npmrc
+.python_history
+.zshrc.zni
+package-lock.json
+stylesheet.css
+yarn.lock
+.config/galculator

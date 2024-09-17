@@ -4,6 +4,13 @@ x-scheme-handler/http=google-chrome.desktop
 x-scheme-handler/https=google-chrome.desktop
 x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
+application/zip=libreoffice-calc.desktop
+x-scheme-handler/tonsite=org.telegram.desktop.desktop
+application/x-ipynb+json=code.desktop
 
 [Added Associations]
 application/x-shellscript=code.desktop;
+application/zip=libreoffice-calc.desktop;
+x-scheme-handler/tonsite=org.telegram.desktop.desktop;
+application/x-ipynb+json=code.desktop;
+image/png=feh.desktop;krita_png.desktop;

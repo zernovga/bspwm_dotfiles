@@ -40,6 +40,6 @@ dunst -config $HOME/.config/bspwm/dunstrc &
 pkill battery-alert; ~/.config/bin/battery-alert &
 
 # start picom
-picom --config $HOME/.config/picom/picom.conf & 
+picom --config $HOME/.config/picom/picom2.conf & 
 
 bash $HOME/.config/bin/random_wallpaper
