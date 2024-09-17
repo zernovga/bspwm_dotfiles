@@ -1,7 +1,7 @@
 configuration{
     modi: "run,drun,window";
     lines: 5;
-    font: "JetBrainsMono Nerd Font 14";
+    font: "JetBrainsMono Nerd Font 10";
     show-icons: true;
     icon-theme: "Papirus-dark";
     terminal: "alacritty";
@@ -25,7 +25,7 @@ configuration{
     foreground:                  #dee0e4;
     normal-foreground:           @foreground;
     alternate-normal-foreground: @foreground;
-    selected-normal-foreground:  #dee0e4;
+    selected-normal-foreground:  @foreground;
     urgent-foreground:           @red;
     alternate-urgent-foreground: @urgent-foreground;
     selected-urgent-foreground:  @foreground;
@@ -49,7 +49,7 @@ configuration{
     border-color:                @foreground;
     separatorcolor:              #41464f;
 
-    lightfg:                     rgba ( 88, 104, 117, 100 % );
+    lightfg:                     @foreground;
     lightbg:                     rgba ( 238, 232, 213, 100 % );
 
     red:                         #fc6a67;
@@ -57,6 +57,7 @@ configuration{
 
     spacing:                     2;
 }
+/*
 #window {
     background-color: @background;
     border-color: @separatorcolor;
@@ -64,6 +65,7 @@ configuration{
     padding:          5;
     height: 360px;
 }
+*/
 #mainbox {
     border:  0;
     padding: 0;
