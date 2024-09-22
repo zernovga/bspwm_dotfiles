@@ -10,7 +10,6 @@ bluez-utils
 bspwm
 conky
 cpupower
-dhcpcd
 dmenu
 dmidecode
 dosfstools

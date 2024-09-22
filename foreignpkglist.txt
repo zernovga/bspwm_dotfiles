@@ -3,7 +3,6 @@ blight
 cpu-x
 google-chrome
 hardinfo2
-laptop-mode-tools
 nvim-packer-git
 optimus-manager-git
 pulseaudio-control
