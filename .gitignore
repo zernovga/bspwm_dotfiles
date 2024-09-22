@@ -1,3 +1,4 @@
+!oh-my-zsh.sh
 .cache/
 .cargo/
 .codeium/
@@ -87,3 +88,4 @@ package-lock.json
 stylesheet.css
 yarn.lock
 .config/galculator
+usb backup
