@@ -16,9 +16,9 @@ super + d
 # 	sh $HOME/.config/bin/screen-lock2 	
 
 # program launcher
-# super + @space
-# 	bash $HOME/.config/bin/change_language.sh
-#	dmenu_run
+super + @space
+	bash $HOME/.config/bin/change_language.sh
+	# dmenu_run
 
 # make sxhkd reload its configuration files:
 super + Escape
