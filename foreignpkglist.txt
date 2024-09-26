@@ -1,9 +1,6 @@
 betterlockscreen
 blight
-cpu-x
 google-chrome
-hardinfo2
 nvim-packer-git
-optimus-manager-git
 pulseaudio-control
 visual-studio-code-bin
